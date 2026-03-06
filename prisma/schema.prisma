@@ -1,0 +1,55 @@
+// ============================================================
+// Prisma Schema — AltSource 数据库模型定义
+//
+// 两个核心模型：
+// - App：已收录的 iOS 应用（对应一个 GitHub 仓库）
+// - Version：App 的版本记录（对应一个 GitHub Release）
+//
+// 关系：App 1 → N Version（级联删除）
+// ============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url = env("DATABASE_URL")
+}
+
+// App 模型 — 已收录的 iOS 应用
+// 每个 App 对应一个 GitHub 仓库，由管理员手动添加
+model App {
+  id                   String    @id @default(cuid())
+  github               String    @unique // GitHub 仓库地址，格式 "owner/repo"
+  slug                 String    @unique // URL 友好的标识符（如 "pikapika"），用于公开链接
+  bundleIdentifier     String    // iOS Bundle Identifier，由管理员填写
+  name                 String?   // App 显示名称（可覆盖 GitHub 自动值）
+  developerName        String?   // 开发者名称（默认为 GitHub repo owner）
+  subtitle             String?   // AltStore 中显示的副标题
+  localizedDescription String?   // App 描述（默认从 GitHub 仓库描述获取）
+  iconURL              String?   // App 图标 URL（默认为 GitHub 头像）
+  tintColor            String?   // AltStore 主题色（如 "#007AFF"）
+  category             String    @default("other") // 应用分类
+  minOSVersion         String?   // 最低 iOS 版本要求，由管理员填写
+  createdAt            DateTime  @default(now())    // 创建时间
+  updatedAt            DateTime  @updatedAt         // 最后更新时间
+  versions             Version[] // 关联的版本列表
+}
+
+// Version 模型 — App 的单个版本
+// 每条记录对应 GitHub 上的一个 Release（包含 .ipa 文件）
+model Version {
+  id                   String   @id @default(cuid())
+  appId                String   // 关联的 App ID
+  app                  App      @relation(fields: [appId], references: [id], onDelete: Cascade)
+  version              String   // 版本号（去掉 v 前缀，如 "1.8.19"）
+  date                 DateTime // Release 发布日期
+  localizedDescription String?  // 清洗后的更新日志（去掉免责声明等）
+  downloadURL          String   // .ipa 文件的下载链接
+  size                 Int      // .ipa 文件大小（字节数）
+  releaseId            Int      @unique // GitHub Release ID（用于去重，避免重复插入）
+  createdAt            DateTime @default(now()) // 记录创建时间
+
+  @@index([appId]) // 按 appId 建索引，加速版本查询
+}
