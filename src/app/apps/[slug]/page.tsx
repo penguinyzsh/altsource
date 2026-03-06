@@ -16,12 +16,12 @@ export const dynamic = "force-dynamic";
 export default async function AppDetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { id } = await params;
+  const { slug } = await params;
 
   const app = await prisma.app.findUnique({
-    where: { id },
+    where: { slug },
     include: {
       versions: {
         orderBy: { date: "desc" },

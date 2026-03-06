@@ -54,7 +54,7 @@ altsource/
 │   │   ├── page.tsx               # Homepage — app showcase grid
 │   │   ├── not-found.tsx          # Custom 404 page
 │   │   ├── error.tsx              # Global error boundary
-│   │   ├── apps/[id]/page.tsx     # App detail — versions, subscribe button
+│   │   ├── apps/[slug]/page.tsx   # App detail — versions, subscribe button
 │   │   ├── admin/
 │   │   │   ├── login/page.tsx     # Admin login
 │   │   │   └── page.tsx           # Admin dashboard (CRUD)

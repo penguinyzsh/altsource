@@ -3,7 +3,7 @@
 /**
  * App 详情页 UI 展示组件
  *
- * 从 apps/[id]/page.tsx（Server Component）提取的 Client Component，
+ * 从 apps/[slug]/page.tsx（Server Component）提取的 Client Component，
  * 用于支持 useTranslation()。接收 Server Component 传入的数据 props。
  */
 

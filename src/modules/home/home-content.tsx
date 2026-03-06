@@ -24,6 +24,7 @@ import { useTranslation } from "@/ui/layout/i18n-provider";
 
 interface AppData {
   id: string;
+  slug: string;
   github: string;
   name: string | null;
   developerName: string | null;
@@ -106,7 +107,7 @@ export function HomeContent({ apps, totalVersions, siteTitle, siteDescription }:
           {apps.map((app) => {
             const latestVersion = app.versions[0];
             return (
-              <Link key={app.id} href={`/apps/${app.id}`} className="group">
+              <Link key={app.id} href={`/apps/${app.slug}`} className="group">
                 <Card className="h-full transition-all duration-200 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-0.5">
                   <CardContent className="p-5">
                     <div className="flex items-start gap-3">

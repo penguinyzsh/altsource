@@ -54,7 +54,7 @@ altsource/
 │   │   ├── page.tsx               # 首页 — 应用展示卡片
 │   │   ├── not-found.tsx          # 自定义 404 页面
 │   │   ├── error.tsx              # 全局错误边界
-│   │   ├── apps/[id]/page.tsx     # 应用详情 — 版本历史、订阅按钮
+│   │   ├── apps/[slug]/page.tsx   # 应用详情 — 版本历史、订阅按钮
 │   │   ├── admin/
 │   │   │   ├── login/page.tsx     # 管理员登录
 │   │   │   └── page.tsx           # 管理面板（增删改查）
